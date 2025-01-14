@@ -1,84 +1,109 @@
-Objective:
+Customer Segmentation and Campaign Analysis
 
-The primary goal of this project was to segment customers using the Bank Marketing dataset (UCI) and identify distinct groups to target with personalized marketing campaigns. The segmentation was based on various customer attributes, such as age, marital status, loan history, previous campaign outcome, and more.
-Data Preprocessing and Feature Engineering:
+This repository contains a comprehensive data science project focusing on customer segmentation and marketing campaign optimisation. Using the bank-full.csv dataset, the project identifies distinct customer clusters and evaluates their likelihood of responding positively to a marketing campaign.
 
-The dataset underwent several preprocessing steps, including encoding categorical variables (e.g., job, marital status, housing status), handling missing values, and scaling numerical features. Features like balance, age, and previous campaign outcome_success were found to be crucial in determining the customer clusters.
+📜 Project Overview
 
-Clustering Approach:
+Effective customer segmentation allows businesses to design personalised marketing strategies, improving response rates and customer satisfaction. This project uses clustering, machine learning, and feature analysis to profile customers, identify high-response groups, and evaluate campaign effectiveness.
 
-We used K-Means clustering to identify three customer clusters. These clusters were derived using the PCA-transformed data to reduce dimensionality and better visualise the clusters in 2D space.
+🎯 Objective
 
-Centroids in PCA Space:
+To identify customer segments for targeted marketing campaigns and determine which segment has the highest likelihood of responding positively.
 
-    Cluster 0: PCA1 = 1.83, PCA2 = 0.12
-    Cluster 1: PCA1 = 3.32, PCA2 = 0.59
-    Cluster 2: PCA1 = -0.85, PCA2 = -0.07
+📂 Dataset
 
-Cluster Distribution:
+Source: UCI Bank Marketing Dataset
 
-The distribution of customers in each cluster based on the outcome variable (outcome_encoded) is as follows:
+    Size: 45,211 rows × 17 columns
+    Key Features:
+        Demographics: Age, job, marital status, education, balance
+        Campaign Data: Contact type, duration, times contacted, previous outcomes
+        Target Variable: outcome (binary: yes or no)
 
-    Cluster 0: 11094 (outcome = 0), 1766 (outcome = 1)
-    Cluster 1: 669 (outcome = 0), 269 (outcome = 1)
-    Cluster 2: 28159 (outcome = 0), 3254 (outcome = 1)
+🔧 Methodology
+
+    Data Preprocessing
+        Renamed columns for clarity.
+        Categorical features were encoded using one-hot and ordinal encoding.
+        Numerical features were scaled for clustering.
+
+    Exploratory Data Analysis (EDA)
+        Visualised distributions of key features.
+        Identified correlations among numerical variables.
+
+    Clustering
+        Used K-Means clustering to group customers into three distinct clusters.
+        PCA was applied to visualise clusters in 2D space.
+
+    Cluster Profiling
+        Analysed average feature values for each cluster.
+        Identified characteristics of each segment.
+
+    Campaign Response Prediction
+        Built a Random Forest Classifier to predict campaign outcomes.
+        Evaluated model performance using metrics like accuracy, precision, recall, and F1-score.
+
+
+📊 Results
 
 Cluster Profiling:
+Cluster	Average Age	Average Balance	Days Passed Since Last Contact	Campaign Contacts	Positive Outcomes (%)
+0	42.29	1,338.62	230.10	2.84	21.5%
+1	33.38	1,288.12	225.81	2.65	12.3%
+2	55.99	1,795.42	178.20	2.58	33.7%
+Cluster Insights:
 
-Each cluster’s features and correlations were analysed, revealing distinct characteristics:
+    Cluster 2: Older customers with higher balances and fewer campaign contacts. This group shows the highest proportion of positive responses.
+    Cluster 0: Moderate engagement with an average response rate.
+    Cluster 1: Younger customers with the lowest response rates.
 
-    Cluster 0 (Larger, Low Response Rate):
-        High percentage of married and blue-collar workers, with a low loan approval rate.
-        Lower likelihood of responding to previous campaign outcomes.
-        High mean age and balance.
-        
-    Cluster 1 (Smaller, Moderate Response Rate):
-        A relatively higher likelihood of responding to previous campaigns.
-        Characteristics include a high percentage of single customers with lower housing and loan approval rates.
-        
-    Cluster 2 (Largest, High Response Rate):
-        Younger customers, with higher chances of success in previous campaigns.
-        Lower percentage of customers with housing or loan approvals.
+Model Performance:
 
-Performance Evaluation:
+    Accuracy: 88.42%
+    Precision: 90% (class 0), 52% (class 1)
+    Recall: 97% (class 0), 21% (class 1)
+    Silhouette Score (Clustering): 0.083
 
-The predictive model was built using Random Forest, achieving an impressive accuracy of 89.26% on the test set. Key metrics (precision, recall, F1-score) were evaluated, with a strong performance in predicting customers who would respond to the marketing campaign.
+📌 Key Recommendations
 
-The model achieved the following classification metrics:
+    Focus on Cluster 2:
+    Customers in Cluster 2 are the most likely to respond positively. Personalised strategies targeting this group can enhance campaign efficiency.
 
-    Precision: 0.90 (Class 0), 0.67 (Class 1)
-    Recall: 0.99 (Class 0), 0.18 (Class 1)
-    F1-Score: 0.94 (Class 0), 0.28 (Class 1)
+    Re-engage Cluster 0:
+    Moderate response rates indicate potential for improvement through tailored messaging.
 
-Confusion Matrix:
-[11826   140]
-[ 1317   281]
+💻 Technologies Used
 
-Additionally, the Random Forest model showed that important features include:
+    Python Libraries: Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn
+    Machine Learning Models: K-Means Clustering, Random Forest Classifier
+    Data Preprocessing: Ordinal and One-Hot Encoding, StandardScaler
 
-    balance (0.2594)
-    age (0.2152)
-    days passed since last contact (0.1356)
+🚀 How to Run
 
-Model Hyperparameter Tuning:
+    Clone the repository:
 
-After performing cross-validation, the model’s hyperparameters were fine-tuned using GridSearch, achieving the best results with:
+git clone https://github.com/your-username/customer-segmentation.git  
+cd customer-segmentation  
 
-    Best Parameters:
-        n_estimators = 200
-        min_samples_split = 5
-        min_samples_leaf = 4
-        max_depth = 20
+Install dependencies:
 
-The accuracy with these parameters was 89.35%, and the average cross-validation score was 85.34%.
-Conclusion:
+pip install -r requirements.txt  
 
-This segmentation analysis and predictive model offer actionable insights for personalized marketing campaigns. By targeting customers from the different clusters based on their likelihood of responding to a campaign, the bank can optimize resource allocation and improve overall campaign efficiency. The model shows great potential for real-time fraud detection or targeted marketing systems.
+Run the Jupyter Notebook or Python scripts:
 
-Here’s a breakdown of the positive outcome proportions for each cluster:
+    jupyter notebook notebooks/customer_segmentation.ipynb  
 
-    Cluster 0: 13.73% positive outcome
-    Cluster 1: 28.68% positive outcome
-    Cluster 2: 10.36% positive outcome
+✨ Future Enhancements
 
-Even though Cluster 2 has the highest total count of customers, Cluster 2 has the lowest proportion of positive outcomes, meaning that this cluster will likely yield better targeted marketing or interventions when a positive outcome is the goal.
+    Implement advanced clustering techniques like DBSCAN or Gaussian Mixture Models.
+    Explore additional datasets for richer segmentation.
+    Develop a web app for interactive customer profiling and campaign management.
+
+🤝 Contributions
+
+Contributions are welcome! Feel free to fork the repository and submit a pull request.
+
+📞 Contact
+
+For questions or suggestions, please reach out:
+Nosipho Mfusi
