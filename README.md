@@ -15,7 +15,6 @@ Table of Contents
     Installation
     Usage
     Technologies Used
-    License
 
 Data Preprocessing
 Feature Engineering and Transformation:
