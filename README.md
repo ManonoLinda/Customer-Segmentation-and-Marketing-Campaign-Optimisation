@@ -1,109 +1,97 @@
-Customer Segmentation and Campaign Analysis
+Customer Segmentation and Campaign Success Analysis using Bank Marketing Dataset
+Project Overview
 
-This repository contains a comprehensive data science project focusing on customer segmentation and marketing campaign optimisation. Using the bank-full.csv dataset, the project identifies distinct customer clusters and evaluates their likelihood of responding positively to a marketing campaign.
+This project leverages the Bank Marketing Dataset (UCI) to perform customer segmentation and identify the segments most likely to subscribe to a term deposit. The primary goal is to analyse customer characteristics, apply clustering techniques, and provide actionable insights to improve marketing strategies for the bank. By understanding customer behaviour, this project helps predict whether a customer will subscribe to a term deposit (variable y) based on a variety of demographic and behavioural features.
 
-📜 Project Overview
+Table of Contents
 
-Effective customer segmentation allows businesses to design personalised marketing strategies, improving response rates and customer satisfaction. This project uses clustering, machine learning, and feature analysis to profile customers, identify high-response groups, and evaluate campaign effectiveness.
-
-🎯 Objective
-
-To identify customer segments for targeted marketing campaigns and determine which segment has the highest likelihood of responding positively.
-
-📂 Dataset
-
-Source: UCI Bank Marketing Dataset
-
-    Size: 45,211 rows × 17 columns
-    Key Features:
-        Demographics: Age, job, marital status, education, balance
-        Campaign Data: Contact type, duration, times contacted, previous outcomes
-        Target Variable: outcome (binary: yes or no)
-
-🔧 Methodology
-
+    Project Overview
     Data Preprocessing
-        Renamed columns for clarity.
-        Categorical features were encoded using one-hot and ordinal encoding.
-        Numerical features were scaled for clustering.
+    Clustering Analysis
+    Results and Insights
+    Key Insights
+    Evaluation Metrics
+    Recommendations
+    Installation
+    Usage
+    Technologies Used
+    License
 
-    Exploratory Data Analysis (EDA)
-        Visualised distributions of key features.
-        Identified correlations among numerical variables.
+Data Preprocessing
+Feature Engineering and Transformation:
 
-    Clustering
-        Used K-Means clustering to group customers into three distinct clusters.
-        PCA was applied to visualise clusters in 2D space.
+    Outlier Handling: Outliers in the balance and campaign columns were replaced with the 95th percentile values.
+    Binarisation of previous and pdays: These features were transformed into binary values, with non-zero values converted to 1 and zero values left as 0.
+    One-Hot Encoding: Categorical variables such as job, marital, and housing were transformed using one-hot encoding.
+    Standardisation: Numerical features like age, balance, and campaign were standardised using a Standard Scaler.
+    Ordinal Encoding: The education feature was ordinally encoded based on its importance.
 
-    Cluster Profiling
-        Analysed average feature values for each cluster.
-        Identified characteristics of each segment.
+Clustering Analysis
+Clustering Algorithm:
 
-    Campaign Response Prediction
-        Built a Random Forest Classifier to predict campaign outcomes.
-        Evaluated model performance using metrics like accuracy, precision, recall, and F1-score.
+    KMeans Clustering: The optimal number of clusters was determined using the Silhouette Score and the Elbow Method, with the final model yielding five clusters.
+    Cluster Profiling: Each cluster was analysed to understand the characteristics of the customers, and key patterns were identified in terms of subscription likelihood.
 
+Results and Insights
+Subscription Analysis:
 
-📊 Results
+    Cluster 3: The premium customer segment with the highest likelihood to subscribe to a term deposit. They have higher balances, tertiary education, and a lower frequency of previous contacts.
+    Cluster 2: Customers with moderate balances who are somewhat likely to subscribe to a term deposit. They are middle-aged and have a history of engagement.
+    Cluster 4: The least likely to subscribe, with low balances and frequent contact history. A targeted and less frequent approach is recommended.
 
-Cluster Profiling:
-Cluster	Average Age	Average Balance	Days Passed Since Last Contact	Campaign Contacts	Positive Outcomes (%)
-0	42.29	1,338.62	230.10	2.84	21.5%
-1	33.38	1,288.12	225.81	2.65	12.3%
-2	55.99	1,795.42	178.20	2.58	33.7%
-Cluster Insights:
+Key Insights:
 
-    Cluster 2: Older customers with higher balances and fewer campaign contacts. This group shows the highest proportion of positive responses.
-    Cluster 0: Moderate engagement with an average response rate.
-    Cluster 1: Younger customers with the lowest response rates.
+    Cluster 3 has the largest percentage of 'yes' subscriptions, making it the most valuable segment for targeted marketing campaigns.
+    Cluster 2 shows potential for conversion, with middle-aged customers and moderate balances.
+    Cluster 4 should be engaged with more personalized and less frequent marketing offers due to lower conversion rates.
 
-Model Performance:
+Evaluation Metrics:
 
-    Accuracy: 88.42%
-    Precision: 90% (class 0), 52% (class 1)
-    Recall: 97% (class 0), 21% (class 1)
-    Silhouette Score (Clustering): 0.083
+    Silhouette Score: 0.307 — Indicates reasonably well-separated clusters.
+    Davies-Bouldin Index: 1.277 — Suggests distinct clusters.
+    Calinski-Harabasz Index: 14,934.82 — Further supports the clustering quality.
 
-📌 Key Recommendations
+Recommendations:
 
-    Focus on Cluster 2:
-    Customers in Cluster 2 are the most likely to respond positively. Personalised strategies targeting this group can enhance campaign efficiency.
+    Target Cluster 3: Focus on high-value marketing offers such as premium services and long-term savings for customers with higher balances and tertiary education.
+    Engage Cluster 2: Market financial growth, savings, and investment options to middle-aged customers with moderate balances.
+    Optimise Contact for Cluster 4: Reduce the frequency of contacts and implement personalised offers to improve conversion rates.
 
-    Re-engage Cluster 0:
-    Moderate response rates indicate potential for improvement through tailored messaging.
+Installation
 
-💻 Technologies Used
-
-    Python Libraries: Pandas, NumPy, Matplotlib, Seaborn, Scikit-learn
-    Machine Learning Models: K-Means Clustering, Random Forest Classifier
-    Data Preprocessing: Ordinal and One-Hot Encoding, StandardScaler
-
-🚀 How to Run
+To run the project locally, follow these steps:
 
     Clone the repository:
 
-git clone https://github.com/your-username/customer-segmentation.git  
-cd customer-segmentation  
+git clone https://github.com/ManonoLinda/Customer-Segmentation-and-Marketing-Campaign-Optimisation.git
 
-Install dependencies:
+Navigate to the project directory:
 
-pip install -r requirements.txt  
+cd bank-marketing-segmentation
 
-Run the Jupyter Notebook or Python scripts:
+Install the required dependencies:
 
-    jupyter notebook notebooks/customer_segmentation.ipynb  
+    pip install -r requirements.txt
 
-✨ Future Enhancements
+Usage
 
-    Implement advanced clustering techniques like DBSCAN or Gaussian Mixture Models.
-    Explore additional datasets for richer segmentation.
-    Develop a web app for interactive customer profiling and campaign management.
+To run the analysis and generate the results:
 
-🤝 Contributions
+    Execute the main script:
 
-Contributions are welcome! Feel free to fork the repository and submit a pull request.
+    python segmentation_analysis.py
 
-📞 Contact
+    The script will:
+        Load and preprocess the data.
+        Apply KMeans clustering.
+        Evaluate the clustering performance.
+        Output visualisations and insights.
 
-For questions or suggestions, please reach out:
-Nosipho Mfusi
+Technologies Used
+
+    Python: The main programming language used for data analysis and clustering.
+    Pandas: For data manipulation and analysis.
+    NumPy: For numerical computations.
+    Matplotlib & Seaborn: For visualisation of results.
+    Scikit-Learn: For clustering and data preprocessing.
+    Jupyter Notebook: Used for exploratory analysis and visualisation.
