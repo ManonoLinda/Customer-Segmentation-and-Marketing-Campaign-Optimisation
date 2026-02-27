@@ -1,96 +1,114 @@
-Customer Segmentation and Campaign Success Analysis using Bank Marketing Dataset
+Customer Segmentation and Marketing Campaign Optimisation using the Bank Marketing Dataset
 Project Overview
 
-This project leverages the Bank Marketing Dataset (UCI) to perform customer segmentation and identify the segments most likely to subscribe to a term deposit. The primary goal is to analyse customer characteristics, apply clustering techniques, and provide actionable insights to improve marketing strategies for the bank. By understanding customer behaviour, this project helps predict whether a customer will subscribe to a term deposit (variable y) based on a variety of demographic and behavioural features.
+This project applies unsupervised machine learning techniques to segment bank customers using the UCI Bank Marketing Dataset. The objective is to identify customer groups exhibiting different propensities to subscribe to a term deposit and to translate these findings into actionable marketing insights.
 
-Table of Contents
+Customer segmentation is performed without incorporating the campaign outcome variable during clustering to ensure that discovered segments reflect underlying behavioural structure rather than supervised prediction effects. Subscription outcomes are analysed only after segmentation to evaluate performance differences across customer groups.
 
-    Project Overview
-    Data Preprocessing
-    Clustering Analysis
-    Results and Insights
-    Key Insights
-    Evaluation Metrics
-    Recommendations
-    Installation
-    Usage
-    Technologies Used
+The analysis demonstrates how customer segmentation can support targeted marketing strategies, improve campaign efficiency, and optimise allocation of marketing resources.
 
 Data Preprocessing
-Feature Engineering and Transformation:
+Feature Engineering
 
-    Outlier Handling: Outliers in the balance and campaign columns were replaced with the 95th percentile values.
-    Binarisation of previous and pdays: These features were transformed into binary values, with non-zero values converted to 1 and zero values left as 0.
-    One-Hot Encoding: Categorical variables such as job, marital, and housing were transformed using one-hot encoding.
-    Standardisation: Numerical features like age, balance, and campaign were standardised using a Standard Scaler.
-    Ordinal Encoding: The education feature was ordinally encoded based on its importance.
+Several preprocessing steps were implemented to ensure meaningful distance-based clustering.
 
-Clustering Analysis
-Clustering Algorithm:
+Behavioural Features
 
-    KMeans Clustering: The optimal number of clusters was determined using the Silhouette Score and the Elbow Method, with the final model yielding five clusters.
-    Cluster Profiling: Each cluster was analysed to understand the characteristics of the customers, and key patterns were identified in terms of subscription likelihood.
+The pdays variable was decomposed into:
 
-Results and Insights
-Subscription Analysis:
+previously_contacted, indicating prior campaign interaction
 
-    Cluster 3: The premium customer segment with the highest likelihood to subscribe to a term deposit. They have higher balances, tertiary education, and a lower frequency of previous contacts.
-    Cluster 2: Customers with moderate balances who are somewhat likely to subscribe to a term deposit. They are middle-aged and have a history of engagement.
-    Cluster 4: The least likely to subscribe, with low balances and frequent contact history. A targeted and less frequent approach is recommended.
+pdays_value, representing time since last contact
 
-Key Insights:
+This preserves behavioural information while avoiding distortion caused by placeholder values.
 
-    Cluster 3 has the largest percentage of 'yes' subscriptions, making it the most valuable segment for targeted marketing campaigns.
-    Cluster 2 shows potential for conversion, with middle-aged customers and moderate balances.
-    Cluster 4 should be engaged with more personalized and less frequent marketing offers due to lower conversion rates.
+Transformation of Skewed Variables
+Financial and campaign-related variables exhibit significant skewness. Logarithmic transformations were applied to:
 
-Evaluation Metrics:
+account balance
 
-    Silhouette Score: 0.307 — Indicates reasonably well-separated clusters.
-    Davies-Bouldin Index: 1.277 — Suggests distinct clusters.
-    Calinski-Harabasz Index: 14,934.82 — Further supports the clustering quality.
+campaign contact frequency
 
-Recommendations:
+previous campaign interactions
 
-    Target Cluster 3: Focus on high-value marketing offers such as premium services and long-term savings for customers with higher balances and tertiary education.
-    Engage Cluster 2: Market financial growth, savings, and investment options to middle-aged customers with moderate balances.
-    Optimise Contact for Cluster 4: Reduce the frequency of contacts and implement personalised offers to improve conversion rates.
+These transformations reduce the influence of extreme observations and improve clustering performance.
 
-Installation
+Categorical Encoding
+Categorical variables such as job, marital status, education, and previous campaign outcome were encoded using frequency encoding to reduce dimensionality and stabilise distance calculations.
 
-To run the project locally, follow these steps:
+Feature Scaling
+Numerical features were standardised using a Standard Scaler prior to clustering.
 
-    Clone the repository:
+Dimensionality Reduction
 
-git clone https://github.com/ManonoLinda/Customer-Segmentation-and-Marketing-Campaign-Optimisation.git
+Principal Component Analysis (PCA) was applied to retain approximately 80% of total variance before clustering. This reduces noise, mitigates high-dimensional effects, and improves separation between customer groups.
 
-Navigate to the project directory:
+All clustering, evaluation, and visualisation steps were performed consistently in PCA-transformed space.
 
-cd bank-marketing-segmentation
+Clustering Methodology
 
-Install the required dependencies:
+Customer segmentation was conducted using K-Means clustering.
 
-    pip install -r requirements.txt
+The number of clusters was determined using:
 
-Usage
+Silhouette Score
 
-To run the analysis and generate the results:
+Davies–Bouldin Index
 
-    Execute the main script:
+Elbow Method
 
-    python segmentation_analysis.py
+Cluster robustness was evaluated by repeating clustering across multiple random initialisations and measuring agreement using the Adjusted Rand Index (ARI), indicating stable and reproducible segmentation.
 
-    The script will:
-        Load and preprocess the data.
-        Apply KMeans clustering.
-        Evaluate the clustering performance.
-        Output visualisations and insights.
+Model Evaluation
+Metric	Result	Interpretation
+Silhouette Score	~0.38	Good separation between clusters
+Davies–Bouldin Index	~0.88	Compact and distinct clusters
+Calinski–Harabasz Index	High	Strong cluster structure
+Stability (ARI)	1.0	Highly stable segmentation
+Segment Insights
 
-Technologies Used
+The analysis identified two primary customer segments with materially different campaign response behaviour.
 
-    Python: The main programming language used for data analysis and clustering.
-    Pandas: For data manipulation and analysis.
-    NumPy: For numerical computations.
-    Matplotlib & Seaborn: For visualisation of results.
-    Scikit-Learn: For clustering and data preprocessing.
-    Jupyter Notebook: Used for exploratory analysis and visualisation.
+Cluster C0 — Low-Engagement Segment
+
+Represents approximately 80% of customers
+
+Subscription rate around 9%
+
+Broad demographic composition
+
+Lower responsiveness despite repeated campaign contact
+
+This segment represents the general customer base generating relatively low marketing return.
+
+Cluster C1 — High-Propensity Segment
+
+Represents approximately 20% of customers
+
+Subscription rate around 23%
+
+Higher financial engagement
+
+Stronger response to marketing outreach
+
+This segment contributes disproportionately to successful subscriptions.
+
+Business Recommendations
+
+Target High-Propensity Customers
+
+Prioritise marketing resources toward Cluster C1
+
+Apply personalised communication strategies
+
+Increase follow-up efforts where appropriate
+
+Optimise Outreach to Low-Engagement Customers
+
+Reduce excessive contact frequency
+
+Use lower-cost communication channels
+
+Apply stricter targeting criteria
+
+Targeted allocation of marketing effort can improve conversion efficiency while reducing unnecessary campaign costs.
