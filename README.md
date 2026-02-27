@@ -1,114 +1,162 @@
-Customer Segmentation and Marketing Campaign Optimisation using the Bank Marketing Dataset
+Customer Segmentation and Marketing Campaign Optimisation
+Bank Marketing Dataset (UCI)
 Project Overview
 
-This project applies unsupervised machine learning techniques to segment bank customers using the UCI Bank Marketing Dataset. The objective is to identify customer groups exhibiting different propensities to subscribe to a term deposit and to translate these findings into actionable marketing insights.
+This project applies unsupervised machine learning to segment bank customers based on demographic and behavioural characteristics using the UCI Bank Marketing Dataset.
 
-Customer segmentation is performed without incorporating the campaign outcome variable during clustering to ensure that discovered segments reflect underlying behavioural structure rather than supervised prediction effects. Subscription outcomes are analysed only after segmentation to evaluate performance differences across customer groups.
+The objective is to identify customer groups with differing probabilities of subscribing to a term deposit and translate these insights into actionable marketing strategies that improve campaign effectiveness and resource allocation.
 
-The analysis demonstrates how customer segmentation can support targeted marketing strategies, improve campaign efficiency, and optimise allocation of marketing resources.
+Customer segmentation is performed without using the campaign outcome variable during clustering, ensuring that discovered segments reflect underlying behavioural structure rather than supervised prediction effects. Subscription outcomes are analysed only after segmentation to evaluate commercial value.
 
-Data Preprocessing
-Feature Engineering
+Business Objective
 
-Several preprocessing steps were implemented to ensure meaningful distance-based clustering.
+Marketing campaigns often apply uniform outreach strategies across heterogeneous customer populations. This results in:
 
-Behavioural Features
+excessive contact costs
+
+customer fatigue
+
+inefficient allocation of marketing resources
+
+This project demonstrates how behavioural segmentation can support:
+
+targeted marketing strategies
+
+improved campaign conversion rates
+
+reduced operational marketing costs
+
+better return on marketing investment
+
+Dataset
+
+Source: UCI Machine Learning Repository
+Dataset: Bank Marketing Dataset
+
+The dataset contains customer demographic information, financial indicators, and historical campaign interaction data used to analyse subscription behaviour for term deposits.
+
+Methodology
+1. Feature Engineering
+
+Behaviourally meaningful features were constructed to improve clustering quality.
 
 The pdays variable was decomposed into:
 
-previously_contacted, indicating prior campaign interaction
+previously_contacted
 
-pdays_value, representing time since last contact
+pdays_value
 
-This preserves behavioural information while avoiding distortion caused by placeholder values.
+Highly skewed financial and campaign variables were transformed using logarithmic scaling.
 
-Transformation of Skewed Variables
-Financial and campaign-related variables exhibit significant skewness. Logarithmic transformations were applied to:
+A signed logarithmic transformation was applied to account balances.
 
-account balance
+These steps reduce distortion caused by outliers and improve distance-based learning.
 
-campaign contact frequency
+2. Categorical Encoding
 
-previous campaign interactions
+Categorical variables were transformed using frequency encoding rather than one-hot encoding to:
 
-These transformations reduce the influence of extreme observations and improve clustering performance.
+reduce dimensionality
 
-Categorical Encoding
-Categorical variables such as job, marital status, education, and previous campaign outcome were encoded using frequency encoding to reduce dimensionality and stabilise distance calculations.
+avoid sparse feature expansion
 
-Feature Scaling
-Numerical features were standardised using a Standard Scaler prior to clustering.
+stabilise similarity measurements
 
-Dimensionality Reduction
+3. Feature Scaling
 
-Principal Component Analysis (PCA) was applied to retain approximately 80% of total variance before clustering. This reduces noise, mitigates high-dimensional effects, and improves separation between customer groups.
+Numerical variables were standardised using StandardScaler to ensure equal contribution across features.
 
-All clustering, evaluation, and visualisation steps were performed consistently in PCA-transformed space.
+4. Dimensionality Reduction
 
-Clustering Methodology
+Principal Component Analysis (PCA) was applied prior to clustering, retaining approximately 80 percent of total variance.
 
-Customer segmentation was conducted using K-Means clustering.
+This improves clustering performance by:
 
-The number of clusters was determined using:
+removing correlated noise
+
+mitigating high-dimensional effects
+
+enhancing geometric separation between customers
+
+All clustering, evaluation, and visualisation were performed in PCA space.
+
+5. Customer Segmentation
+
+Customer groups were identified using K-Means clustering.
+
+The number of clusters was selected using:
 
 Silhouette Score
 
-Davies–Bouldin Index
+Davies-Bouldin Index
 
 Elbow Method
 
-Cluster robustness was evaluated by repeating clustering across multiple random initialisations and measuring agreement using the Adjusted Rand Index (ARI), indicating stable and reproducible segmentation.
+Cluster stability was validated using the Adjusted Rand Index (ARI) across multiple random initialisations.
 
 Model Evaluation
-Metric	Result	Interpretation
-Silhouette Score	~0.38	Good separation between clusters
-Davies–Bouldin Index	~0.88	Compact and distinct clusters
-Calinski–Harabasz Index	High	Strong cluster structure
-Stability (ARI)	1.0	Highly stable segmentation
-Segment Insights
+Metric	Value	Interpretation
+Silhouette Score	0.6256	Strong separation between segments
+Davies-Bouldin Index	0.5870	Compact and distinct clusters
+Calinski-Harabasz Index	60,500+	Strong structural segmentation
+Stability (ARI)	1.0	Fully stable clustering
+Customer Segments
+Cluster C0 - Low Engagement Segment
 
-The analysis identified two primary customer segments with materially different campaign response behaviour.
+Customers: 36,954
 
-Cluster C0 — Low-Engagement Segment
+Share: 81.7%
 
-Represents approximately 80% of customers
+Subscription Rate: 9.16%
 
-Subscription rate around 9%
+Characteristics:
 
-Broad demographic composition
+Broad customer population
 
-Lower responsiveness despite repeated campaign contact
+Lower response despite repeated outreach
 
-This segment represents the general customer base generating relatively low marketing return.
+Represents majority marketing expenditure
 
-Cluster C1 — High-Propensity Segment
+Business implication:
+This segment generates limited return relative to outreach effort.
 
-Represents approximately 20% of customers
+Cluster C1 - High Propensity Segment
 
-Subscription rate around 23%
+Customers: 8,257
 
-Higher financial engagement
+Share: 18.3%
 
-Stronger response to marketing outreach
+Subscription Rate: 23.07%
 
-This segment contributes disproportionately to successful subscriptions.
+Characteristics:
 
-Business Recommendations
+Financially engaged customers
 
-Target High-Propensity Customers
+Stronger response to campaign contact
 
-Prioritise marketing resources toward Cluster C1
+More than double the conversion rate of Cluster C0
 
-Apply personalised communication strategies
+Business implication:
+This segment delivers disproportionate campaign value.
 
-Increase follow-up efforts where appropriate
+Business Value
 
-Optimise Outreach to Low-Engagement Customers
+The segmentation enables data-driven marketing optimisation:
 
-Reduce excessive contact frequency
+Target High Propensity Customers
 
-Use lower-cost communication channels
+prioritise personalised outreach
 
-Apply stricter targeting criteria
+increase follow-up intensity
 
-Targeted allocation of marketing effort can improve conversion efficiency while reducing unnecessary campaign costs.
+allocate experienced sales resources
+
+Optimise Low Engagement Outreach
+
+reduce excessive contact frequency
+
+deploy lower-cost communication channels
+
+minimise campaign fatigue
+
+Expected outcomes include improved conversion efficiency and reduced campaign costs.
